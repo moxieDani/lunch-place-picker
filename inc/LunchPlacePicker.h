@@ -1,10 +1,10 @@
 #pragma once
 typedef struct LunchPlaceInfo {
-	char* name;
-	char* desc;
-	int frequency = 0;
+	char name[50];
+	char desc[200];
+	int frequency;
 	LunchPlaceInfo* pNext = NULL;
-};
+}LunchPlaceInfo;
 
 int init(char* path);
 
