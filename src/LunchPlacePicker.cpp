@@ -24,6 +24,12 @@ int init(char* path)
 		if ( 0 == strlen(line) ) { break; }
 		setLunchPlaceInfo(line, LunchPlace);
 		free(line);
+		
+		printf("FREQ(%d) NAME(%s) DESC(%s)\n", LunchPlace->frequency, LunchPlace->name, LunchPlace->desc);
+		LunchPlace->pNext = (LunchPlaceInfo*)malloc(sizeof(LunchPlaceInfo));
+		LunchPlace = LunchPlace->pNext;
+		LunchPlace->pNext = NULL;
+		total++;
 	}
 	printf("total count : %d\n", total);
 	
@@ -41,6 +47,7 @@ static char* getLine()
 		fread(&buf, 1, 1, fp);
 		if ( '\n' == buf || feof(fp) ) break;
 		lineLength++;
+
 		line = (char*)realloc(line, sizeof(char)*lineLength);
 		line[lineLength - 2] = buf;
 	}
@@ -58,19 +65,10 @@ static void setLunchPlaceInfo(char* line, LunchPlaceInfo* LunchPlace)
 	memset(LunchPlace->name, '\0', strlen(line) + 1);
 	memcpy(LunchPlace->name, line, strlen(line));
 
-	strtok(NULL, " ");
 	line = strtok(NULL, ",<DESC>=");
-	printf("strlen(line) : %d\n", strlen(line));
 	LunchPlace->desc = (char*)malloc(sizeof(char) * strlen(line) + 1);
 	memset(LunchPlace->desc, '\0', strlen(line) + 1);
 	memcpy(LunchPlace->desc, line, strlen(line));
-
-	printf("FREQ(%d) NAME(%s) DESC(%s)\n", LunchPlace->frequency, LunchPlace->name, LunchPlace->desc);
-
-	LunchPlace->pNext = (LunchPlaceInfo*)malloc(sizeof(LunchPlaceInfo));
-	LunchPlace = LunchPlace->pNext;
-	LunchPlace->pNext = NULL;
-	total++;
 }
 
 char* pick()
@@ -83,6 +81,17 @@ char* pick()
 
 int add(char* name, char* desc)
 {
+	LunchPlaceInfo* LunchPlace = (LunchPlaceInfo*)malloc(sizeof(LunchPlaceInfo));
+	
+	LunchPlace->frequency = 0;
+	LunchPlace->name = (char*)malloc(strlen(name)+1);
+	memcpy(LunchPlace->name, name, strlen(name)+1);
+	LunchPlace->desc = (char*)malloc(strlen(desc)+1);
+	memcpy(LunchPlace->desc, desc, strlen(desc)+1);
+
+	LunchPlace->pNext = gLunchPlace;
+	gLunchPlace = LunchPlace;
+	
 	return 0;
 }
 

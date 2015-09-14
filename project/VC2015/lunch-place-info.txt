@@ -1,9 +1,3 @@
-<FREQ>=0, <NAME>=고기의신, <DESC>=Ministop옆 고기집. 회식으로좋음.
-<FREQ>=0, <NAME>=아라궁, <DESC>=회사뒤 중식집
-<FREQ>=0, <NAME>=아라섬, <DESC>=회사앞 일식집
-<FREQ>=0, <NAME>=고기의 신 강남점, <DESC>=Ministop옆 고기집. 회식으로좋음.
-<FREQ>=0, <NAME>=아방궁, <DESC>=회사뒤 중국집
-<FREQ>=0, <NAME>=아라섬, <DESC>=회사앞 일식집
-
-
-
+<FREQ>=0,<NAME>=고기의신,<DESC>=Ministop옆 고기집. 회식으로좋음.
+<FREQ>=0,<NAME>=진순대,<DESC>=순대, 뼈해장국을 동시에.
+<FREQ>=0,<NAME>=아라섬,<DESC>=회사앞 일식집
