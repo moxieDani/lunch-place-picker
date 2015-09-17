@@ -23,3 +23,5 @@ int remove(int index);
 int save();
 
 int exit();
+
+LunchPlaceInfo* temp();
