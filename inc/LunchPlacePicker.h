@@ -6,15 +6,22 @@ typedef struct LunchPlaceInfo {
 	LunchPlaceInfo* pNext;
 }LunchPlaceInfo;
 
-int init(char* path);
+/*
 
-static char* getLine();
+*/
+int open(char* path);
 
-static void setLunchPlaceInfo(char* line, LunchPlaceInfo* LunchPlace);
+int init();
 
-char* pick();
+static char* getLine(char* line);
 
-int add(char* name, char* desc="");
+static LunchPlaceInfo getParsedData(char* line);
+
+LunchPlaceInfo* pickLunchPlace();
+
+LunchPlaceInfo* getNode(int index);
+
+int add(char* name, char* desc, int freq = 0);
 
 int modify(int index, char* name, char* desc);
 
@@ -22,6 +29,8 @@ int remove(int index);
 
 int save();
 
-int exit();
+int deinit();
+
+void close();
 
 LunchPlaceInfo* temp();

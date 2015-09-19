@@ -1,3 +1,4 @@
-<FREQ>=0,<NAME>=고기의신,<DESC>=Ministop옆 고기집. 회식으로좋음.
-<FREQ>=0,<NAME>=진순대,<DESC>=순대, 뼈해장국을 동시에.
-<FREQ>=0,<NAME>=아라섬,<DESC>=회사앞 일식집
+<FREQ>=2,<NAME>=K,<DESC>=P YOUR FORK
+<FREQ>=3,<NAME>=K,<DESC>=P YOUR FORK
+<FREQ>=3,<NAME>=KEEP YOUR FORK,<DESC>=쌍용 플래티넘 건너서 푸드코트
+<FREQ>=3,<NAME>=십원집,<DESC>=역삼초 옆 연탄불고기 백반

@@ -5,52 +5,57 @@
 #include "LunchPlacePicker.h"
 
 FILE *fp;
-static LunchPlaceInfo* gLunchPlaceHEAD = (LunchPlaceInfo*)malloc(sizeof(LunchPlaceInfo));
-static LunchPlaceInfo* gLunchPlaceTAIL;
+static LunchPlaceInfo* gLunchPlaceHEAD = NULL;
+static LunchPlaceInfo* gLunchPlaceTAIL = NULL;
 static int total = 0;
+static char* filePath;
 
-int init(char* path)
+int open(char* path)
 {
-	LunchPlaceInfo* LunchPlace = gLunchPlaceHEAD;
+	filePath = path;
 	if (NULL == (fp = fopen(path, "r+")))
 	{
 		printf("File open error!\n");
 		return -1;
 	}
+	return 0;
+}
 
+int init()
+{
 	printf("init start\n");
-	while (1)
-	{
-		char* line = getLine();
-		if (0 == strlen(line)) { break; }
-		setLunchPlaceInfo(line, LunchPlace);
-		free(line);
+	gLunchPlaceHEAD = (LunchPlaceInfo*)malloc(sizeof(LunchPlaceInfo));
+	gLunchPlaceHEAD->pNext = NULL;
+	LunchPlaceInfo* LunchPlace = gLunchPlaceHEAD;
 
-		printf("[init] FREQ(%d) NAME(%s) DESC(%s)\n", LunchPlace->frequency, LunchPlace->name, LunchPlace->desc);
-		if ( !feof(fp) )
-		{
-			
-			LunchPlace->pNext = (LunchPlaceInfo*)malloc(sizeof(LunchPlaceInfo));
-			LunchPlace = LunchPlace->pNext;
-		}
-		gLunchPlaceTAIL = LunchPlace;
-		LunchPlace->pNext = NULL;
-		total++;
+	while( !feof(fp) )
+	{
+		char* line = (char*)malloc(sizeof(char) * 1);
+		line = getLine(line);
+		if (line[0] == '\0') continue;
+		LunchPlaceInfo parsedData = getParsedData(line);
+		add(parsedData.name, parsedData.desc, parsedData.frequency);
+		free(line);
 	}
-	printf("total count : %d\n", total);
+
+	if (total == 0)
+	{
+		free(gLunchPlaceHEAD);
+		gLunchPlaceHEAD = NULL;
+	}
 
 	printf("init done\n");
 	return 0;
 }
 
-static char* getLine()
+static char* getLine(char* line)
 {
 	char buf;
 	int lineLength = 1;
-	char* line = (char*)malloc(sizeof(char) * lineLength);
+	
 	while (1)
 	{
-		fread(&buf, 1, 1, fp);
+		buf = fgetc(fp);
 		if ('\n' == buf || feof(fp)) break;
 		lineLength++;
 
@@ -58,50 +63,107 @@ static char* getLine()
 		line[lineLength - 2] = buf;
 	}
 	line[lineLength - 1] = '\0';
-
 	return line;
 }
 
-static void setLunchPlaceInfo(char* line, LunchPlaceInfo* LunchPlace)
+static LunchPlaceInfo getParsedData(char* line)
 {
-	LunchPlace->frequency = atoi(strtok(line, "<FREQ>="));
+	LunchPlaceInfo temp;
+	char* targetFreq = strdup(line);
 
-	line = strtok(NULL, ",<NAME>=");
-	LunchPlace->name = (char*)malloc(sizeof(char) * strlen(line) + 1);
-	memset(LunchPlace->name, '\0', strlen(line) + 1);
-	memcpy(LunchPlace->name, line, strlen(line));
+	char* parsedFreq = strstr(line, "<FREQ>=") + 7;
+	char* parsedName = strstr(line, ",<NAME>=") + 8;
+	char* parsedDesc = strstr(line, ",<DESC>=") + 8;
+	*( parsedFreq + (strstr(targetFreq, ",<NAME>=") - parsedFreq) ) = '\0';
+	*( parsedName + (strstr(line, ",<DESC>=") - parsedName) ) = '\0';
 
-	line = strtok(NULL, ",<DESC>=");
-	LunchPlace->desc = (char*)malloc(sizeof(char) * strlen(line) + 1);
-	memset(LunchPlace->desc, '\0', strlen(line) + 1);
-	memcpy(LunchPlace->desc, line, strlen(line));
-
+	temp.frequency = atoi(parsedFreq);
+	temp.name = parsedName;
+	temp.desc = parsedDesc;
+	
+	free(targetFreq);
+	return temp;
 }
 
-char* pick()
+LunchPlaceInfo* pickLunchPlace()
 {
+	int i, j = 0;
+	LunchPlaceInfo* nominee[5] = { NULL, };
+	LunchPlaceInfo* ret = NULL;
+	int randomNumber = 0;
 	srand(time(NULL));
+	if (total == 0) return NULL;
+	for (i = 0; i < 5; i++)
+	{
+		if (total < 5)
+			nominee[i] = getNode(i);
+		else
+		{
+			randomNumber = rand() % total;
+			nominee[i] = getNode(randomNumber);
+			for (j = 0; j < i; j++)
+				if (nominee[i] == nominee[j])
+					i--;
+		}
+	}
 
-	LunchPlaceInfo* temp = gLunchPlaceHEAD;
-	return 0;
+	for (i = 0; i < (total < 5 ? total : 5); i++)
+	{
+		ret = nominee[i];
+		for (j = 0; j < i; j++)
+			if (nominee[i]->frequency > nominee[j]->frequency)
+				ret = nominee[j];
+	}
+	ret->frequency += 1;
+	printf("[pick] \"%s\" has been picked!\n", ret->name);
+	return ret;
 }
 
-int add(char* name, char* desc)
+LunchPlaceInfo* getNode(int index)
+{
+	LunchPlaceInfo* LunchPlace = gLunchPlaceHEAD;
+	if (0 > index || total < index)
+		return NULL;
+
+	for (int i = 0; i < total; i++)
+	{
+		if (index == i)
+		{
+			printf("[getNode] index(%d) FREQ(%d) NAME(%s) DESC(%s)\n", index, LunchPlace->frequency, LunchPlace->name, LunchPlace->desc);
+			return LunchPlace;
+		}
+		LunchPlace = LunchPlace->pNext;
+	}
+	return LunchPlace;
+}
+
+int add(char* name, char* desc, int freq)
 {
 	LunchPlaceInfo* LunchPlace = (LunchPlaceInfo*)malloc(sizeof(LunchPlaceInfo));
 
-	LunchPlace->frequency = 0;
+	LunchPlace->frequency = freq;
 	LunchPlace->name = (char*)malloc(strlen(name) + 1);
-	memcpy(LunchPlace->name, name, strlen(name) + 1);
+	memset(LunchPlace->name, '\0', strlen(name) + 1);
+	memcpy(LunchPlace->name, name, strlen(name));
 	LunchPlace->desc = (char*)malloc(strlen(desc) + 1);
-	memcpy(LunchPlace->desc, desc, strlen(desc) + 1);
+	memset(LunchPlace->desc, '\0', strlen(desc) + 1);
+	memcpy(LunchPlace->desc, desc, strlen(desc));
 	LunchPlace->pNext = NULL;
 
+	if(total == 0)
+	{
+		free(gLunchPlaceHEAD);
+		gLunchPlaceHEAD = LunchPlace;
+		gLunchPlaceTAIL = gLunchPlaceHEAD;
+	}
+	else
+	{
+		gLunchPlaceTAIL->pNext = LunchPlace;
+		gLunchPlaceTAIL = gLunchPlaceTAIL->pNext;
+	}
 	printf("[add] FREQ(%d) NAME(%s) DESC(%s)\n", LunchPlace->frequency, LunchPlace->name, LunchPlace->desc);
-
-	gLunchPlaceTAIL->pNext = LunchPlace;
-	gLunchPlaceTAIL = gLunchPlaceTAIL->pNext;
 	total++;
+	printf("total count : %d\n", total);
 	return 0;
 }
 
@@ -126,7 +188,7 @@ int modify(int index, char* name, char* desc)
 			LunchPlace->desc = (char*)realloc(LunchPlace->desc, strlen(desc) + 1);
 			memcpy(LunchPlace->desc, desc, strlen(desc) + 1);
 
-			printf("[modify] FREQ(%d) NAME(%s) DESC(%s)\n", LunchPlace->frequency, LunchPlace->name, LunchPlace->desc);
+			printf("[modify] index(%d) FREQ(%d) NAME(%s) DESC(%s)\n", index, LunchPlace->frequency, LunchPlace->name, LunchPlace->desc);
 			break;
 		}
 		LunchPlace = LunchPlace->pNext;
@@ -137,29 +199,28 @@ int modify(int index, char* name, char* desc)
 int remove(int index)
 {
 	LunchPlaceInfo* LunchPlace = gLunchPlaceHEAD;
-	LunchPlaceInfo* targetToRemove;
-	if (0 > index || total < index)
+	LunchPlaceInfo* targetToRemove = NULL;
+	if (0 > index || total <= index)
 		return -1;
-
-	for (int i = 1; i < total; i++)
+	
+	if (index == 0)
 	{
-		
-		if (index == 0)
-		{
-			targetToRemove = gLunchPlaceHEAD;
-			gLunchPlaceHEAD = gLunchPlaceHEAD->pNext;
-			break;
-		}
-		else if (index == i)
+		targetToRemove = gLunchPlaceHEAD;
+		gLunchPlaceHEAD = gLunchPlaceHEAD->pNext;
+	}
+
+	for (int i = 1; i < total + 1; i++)
+	{
+		if (i == index)
 		{
 			targetToRemove = LunchPlace->pNext;
 			LunchPlace->pNext = targetToRemove->pNext;
 			break;
 		}
-		//gLunchPlaceTAIL = LunchPlace->pNext == NULL ? LunchPlace : gLunchPlaceTAIL;
 		LunchPlace = LunchPlace->pNext;
 	}
-	printf("[remove] FREQ(%d) NAME(%s) DESC(%s)\n", targetToRemove->frequency, targetToRemove->name, targetToRemove->desc);
+	printf("total count : %d\n", total);
+	printf("[remove] index(%d) FREQ(%d) NAME(%s) DESC(%s)\n",index, targetToRemove->frequency, targetToRemove->name, targetToRemove->desc);
 
 	free(targetToRemove->name);
 	targetToRemove->name = NULL;
@@ -173,15 +234,30 @@ int remove(int index)
 
 int save()
 {
+	if (NULL != fp) fclose(fp);
+
+	fp = fopen(filePath,"w+");
+	LunchPlaceInfo* LunchPlace = gLunchPlaceHEAD;
+	while (NULL != LunchPlace)
+	{
+		fprintf(fp,"<FREQ>=%d,<NAME>=%s,<DESC>=%s\n", LunchPlace->frequency, LunchPlace->name, LunchPlace->desc);
+		LunchPlace = LunchPlace->pNext;
+	}
+	fclose(fp);
 	return 0;
 }
 
-int exit()
+int deinit()
 {
-	if (NULL != fp) fclose(fp);
-
-	printf("exit start\n");
-	while (NULL != gLunchPlaceHEAD->pNext)
+	printf("deinit start\n");
+	gLunchPlaceTAIL = NULL;
+	if (total == 0)
+	{
+		free(gLunchPlaceHEAD);
+		gLunchPlaceHEAD = NULL;
+	}
+	
+	while (NULL != gLunchPlaceHEAD)
 	{
 		LunchPlaceInfo* temp = gLunchPlaceHEAD->pNext;
 		free(gLunchPlaceHEAD->name);
@@ -189,12 +265,15 @@ int exit()
 		free(gLunchPlaceHEAD->desc);
 		gLunchPlaceHEAD->desc = NULL;
 		free(gLunchPlaceHEAD);
-		gLunchPlaceHEAD = NULL;
 		gLunchPlaceHEAD = temp;
 	}
-	printf("exit done\n");
-
+	printf("deinit done\n");
 	return 0;
+}
+
+void close()
+{
+	if (NULL != fp) fclose(fp);
 }
 
 LunchPlaceInfo* temp()

@@ -1,22 +1,27 @@
 #include <stdio.h>
 #include "LunchPlacePicker.h"
 
+void printNode();
+
+void printNode()
+{
+	printf("[Output]\n");
+	int i = 0;
+	for( LunchPlaceInfo* tmp = temp(); tmp; tmp = tmp->pNext)
+		printf("[print] %d. FREQ(%d) NAME(%s) DESC(%s)\n", i++, tmp->frequency, tmp->name, tmp->desc);
+	printf("\n");
+}
+
 int main(int argc, char* argv[])
 {
-	init("lunch-place-info.txt");
-	
-	remove(0);
-	remove(0);
-	add("Keep Your Fork", "푸드코트. 조금 비쌈.");
-	modify(1, "진순대", "뼈해장국과 순대국을 동시에!");
-	LunchPlaceInfo* tmp = temp();
-	printf("\n");
-	while (NULL != tmp)
-	{
-		printf("[total] FREQ(%d) NAME(%s) DESC(%s)\n", tmp->frequency, tmp->name, tmp->desc);
-		//printf("[total] tmp(%x) \n", tmp);
-		tmp = tmp->pNext;
-	}
-	exit();
+	LunchPlaceInfo* lunchPlace = NULL;
+	open("lunch-place-info.txt");
+	init();
+
+	lunchPlace = pickLunchPlace();
+	printf("\n[total] Lunch Place information : NAME(%s) / DESC(%s)\n", lunchPlace->name, lunchPlace->desc);
+	save();
+	deinit();
+	close();
 	return 0;
 }
