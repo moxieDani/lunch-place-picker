@@ -10,20 +10,28 @@ static LunchPlaceInfo* gLunchPlaceTAIL = NULL;
 static int total = 0;
 static char* filePath;
 
-int open(char* path)
+int fileOpen(char* path)
 {
+	int ret = 0;
 	filePath = path;
 	if (NULL == (fp = fopen(path, "r+")))
 	{
-		printf("File open error!\n");
-		return -1;
+		printf("File not found / path : %s!\n", path);
+		if (NULL == (fp = fopen(path, "w+")))
+		{
+			printf("File open error! / path : %s!\n", path);
+			ret = -1;
+		}
+		else
+			printf("New file created / path : %s!\n", path);
 	}
-	return 0;
+	return ret;
 }
 
-int init()
+int LoadFile(char* path)
 {
-	printf("init start\n");
+	fileOpen(path);
+	printf("Load data start\n");
 	gLunchPlaceHEAD = (LunchPlaceInfo*)malloc(sizeof(LunchPlaceInfo));
 	gLunchPlaceHEAD->pNext = NULL;
 	LunchPlaceInfo* LunchPlace = gLunchPlaceHEAD;
@@ -38,7 +46,7 @@ int init()
 		
 		if ( 0 <= parsedData.freq && parsedData.name && parsedData.desc)
 		{
-			add(parsedData.name, parsedData.desc);
+			insertNode(parsedData.name, parsedData.desc);
 			getNode(total - 1)->freq = parsedData.freq;
 		}
 		free(line);
@@ -50,7 +58,7 @@ int init()
 		gLunchPlaceHEAD = NULL;
 	}
 
-	printf("init done\n");
+	printf("Load data end\n");
 	return 0;
 }
 
@@ -129,7 +137,7 @@ LunchPlaceInfo* pickLunchPlace()
 				ret = nominee[j];
 	}
 	ret->freq += 1;
-	printf("[pick] \"%s\" has been picked!\n", ret->name);
+	
 	return ret;
 }
 
@@ -144,16 +152,14 @@ LunchPlaceInfo* getNode(int index)
 	for (i = 0; i < total; i++)
 	{
 		if (index == i)
-		{
-			printf("[getNode] index(%d) FREQ(%d) NAME(%s) DESC(%s)\n", index, LunchPlace->freq, LunchPlace->name, LunchPlace->desc);
 			return LunchPlace;
-		}
+
 		LunchPlace = LunchPlace->pNext;
 	}
 	return LunchPlace;
 }
 
-int add(char* name, char* desc)
+int insertNode(char* name, char* desc)
 {
 	LunchPlaceInfo* LunchPlace = (LunchPlaceInfo*)malloc(sizeof(LunchPlaceInfo));
 
@@ -161,6 +167,7 @@ int add(char* name, char* desc)
 	LunchPlace->name = (char*)malloc(strlen(name) + 1);
 	memset(LunchPlace->name, '\0', strlen(name) + 1);
 	memcpy(LunchPlace->name, name, strlen(name));
+
 	LunchPlace->desc = (char*)malloc(strlen(desc) + 1);
 	memset(LunchPlace->desc, '\0', strlen(desc) + 1);
 	memcpy(LunchPlace->desc, desc, strlen(desc));
@@ -177,13 +184,12 @@ int add(char* name, char* desc)
 		gLunchPlaceTAIL->pNext = LunchPlace;
 		gLunchPlaceTAIL = gLunchPlaceTAIL->pNext;
 	}
-	printf("[add] FREQ(%d) NAME(%s) DESC(%s)\n", LunchPlace->freq, LunchPlace->name, LunchPlace->desc);
+	printf("[Insert] index(%d) FREQ(%d) NAME(%s) DESC(%s)\n", total, LunchPlace->freq, LunchPlace->name, LunchPlace->desc);
 	total++;
-	printf("total count : %d\n", total);
 	return 0;
 }
 
-int modify(int index, char* name, char* desc)
+int modifyNode(int index, char* name, char* desc)
 {
 	LunchPlaceInfo* LunchPlace = gLunchPlaceHEAD;
 	int i = 0;
@@ -195,16 +201,20 @@ int modify(int index, char* name, char* desc)
 	{
 		if (index == i)
 		{
-			free(LunchPlace->name);
-			LunchPlace->name = NULL;
-			LunchPlace->name = (char*)realloc(LunchPlace->name, strlen(name) + 1);
-			memcpy(LunchPlace->name, name, strlen(name) + 1);
-
-			free(LunchPlace->desc);
-			LunchPlace->desc = NULL;
-			LunchPlace->desc = (char*)realloc(LunchPlace->desc, strlen(desc) + 1);
-			memcpy(LunchPlace->desc, desc, strlen(desc) + 1);
-
+			if (name)
+			{
+				free(LunchPlace->name);
+				LunchPlace->name = NULL;
+				LunchPlace->name = (char*)realloc(LunchPlace->name, strlen(name) + 1);
+				memcpy(LunchPlace->name, name, strlen(name) + 1);
+			}
+			if (desc)
+			{
+				free(LunchPlace->desc);
+				LunchPlace->desc = NULL;
+				LunchPlace->desc = (char*)realloc(LunchPlace->desc, strlen(desc) + 1);
+				memcpy(LunchPlace->desc, desc, strlen(desc) + 1);
+			}
 			printf("[modify] index(%d) FREQ(%d) NAME(%s) DESC(%s)\n", index, LunchPlace->freq, LunchPlace->name, LunchPlace->desc);
 			break;
 		}
@@ -213,7 +223,7 @@ int modify(int index, char* name, char* desc)
 	return 0;
 }
 
-int remove(int index)
+int deleteNode(int index)
 {
 	LunchPlaceInfo* LunchPlace = gLunchPlaceHEAD;
 	LunchPlaceInfo* targetToRemove = NULL;
@@ -239,7 +249,7 @@ int remove(int index)
 		LunchPlace = LunchPlace->pNext;
 	}
 	printf("total count : %d\n", total);
-	printf("[remove] index(%d) FREQ(%d) NAME(%s) DESC(%s)\n",index, targetToRemove->freq, targetToRemove->name, targetToRemove->desc);
+	printf("[delete] index(%d) FREQ(%d) NAME(%s) DESC(%s)\n",index, targetToRemove->freq, targetToRemove->name, targetToRemove->desc);
 
 	free(targetToRemove->name);
 	targetToRemove->name = NULL;
@@ -251,7 +261,7 @@ int remove(int index)
 	return 0;
 }
 
-int save()
+int saveNodeToFile()
 {
 	if (NULL != fp) fclose(fp);
 
@@ -264,12 +274,13 @@ int save()
 		LunchPlace = LunchPlace->pNext;
 	}
 	fclose(fp);
+	printf("[save] Saved successfully\n");
 	return 0;
 }
 
-int deinit()
+int release()
 {
-	printf("deinit start\n");
+	printf("release start\n");
 	gLunchPlaceTAIL = NULL;
 	if (total == 0)
 	{
@@ -287,17 +298,11 @@ int deinit()
 		free(gLunchPlaceHEAD);
 		gLunchPlaceHEAD = temp;
 	}
-	printf("deinit done\n");
+	printf("release done\n");
 	return 0;
 }
 
-void close()
+void fileClose()
 {
 	if (NULL != fp) fclose(fp);
-}
-
-LunchPlaceInfo* temp()
-{
-	LunchPlaceInfo* temp = gLunchPlaceHEAD;
-	return temp;
 }

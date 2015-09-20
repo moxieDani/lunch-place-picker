@@ -1,26 +1,26 @@
-<FREQ>=0,<NAME>=Keep your fork,<DESC>=a
-<FREQ>=0,<NAME>=마키노차야,<DESC>=b
-<FREQ>=0,<NAME>=파닥파닥,<DESC>=1
-<FREQ>=0,<NAME>=십원집,<DESC>=d
+<FREQ>=1,<NAME>=Keep your fork,<DESC>=a
+<FREQ>=1,<NAME>=마키노차야,<DESC>=b
+<FREQ>=1,<NAME>=파닥파닥,<DESC>=1
+<FREQ>=1,<NAME>=십원집,<DESC>=d
 <FREQ>=0,<NAME>=한도니,<DESC>=
 <FREQ>=0,<NAME>=고기의 신,<DESC>=
 <FREQ>=0,<NAME>=강남불백,<DESC>=
 <FREQ>=0,<NAME>=아라섬,<DESC>=
-<FREQ>=0,<NAME>=Steak po,<DESC>=
+<FREQ>=1,<NAME>=Steak po,<DESC>=
 <FREQ>=0,<NAME>=금모래,<DESC>=
 <FREQ>=0,<NAME>=호남마을,<DESC>=
 <FREQ>=0,<NAME>=한우와 제주돼지,<DESC>=
 <FREQ>=0,<NAME>=백반,<DESC>=
-<FREQ>=0,<NAME>=찌개집,<DESC>=
-<FREQ>=0,<NAME>=아방궁,<DESC>=
-<FREQ>=0,<NAME>=동방홍,<DESC>=
+<FREQ>=1,<NAME>=찌개집,<DESC>=
+<FREQ>=1,<NAME>=아방궁,<DESC>=
+<FREQ>=1,<NAME>=동방홍,<DESC>=
 <FREQ>=0,<NAME>=울트라 키친,<DESC>=
-<FREQ>=0,<NAME>=mom choi,<DESC>=
+<FREQ>=1,<NAME>=mom choi,<DESC>=
 <FREQ>=1,<NAME>=Ken Home,<DESC>=
 <FREQ>=0,<NAME>=새마을식당,<DESC>=
-<FREQ>=0,<NAME>=덕이 닭찜,<DESC>=
-<FREQ>=0,<NAME>=청담돈까스,<DESC>=
+<FREQ>=1,<NAME>=덕이 닭찜,<DESC>=
+<FREQ>=1,<NAME>=청담돈까스,<DESC>=
 <FREQ>=1,<NAME>=플래티넘 족발집,<DESC>=
 <FREQ>=0,<NAME>=나주가,<DESC>=
-<FREQ>=0,<NAME>=금모래 옆집,<DESC>=
-<FREQ>=0,<NAME>=지세포 세꼬시,<DESC>=
+<FREQ>=1,<NAME>=금모래 옆집,<DESC>=
+<FREQ>=1,<NAME>=지세포 세꼬시,<DESC>=
