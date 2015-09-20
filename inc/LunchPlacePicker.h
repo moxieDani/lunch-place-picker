@@ -2,7 +2,7 @@
 typedef struct LunchPlaceInfo {
 	char* name;
 	char* desc;
-	int frequency;
+	int freq;
 	LunchPlaceInfo* pNext;
 }LunchPlaceInfo;
 
@@ -21,7 +21,7 @@ LunchPlaceInfo* pickLunchPlace();
 
 LunchPlaceInfo* getNode(int index);
 
-int add(char* name, char* desc, int freq = 0);
+int add(char* name, char* desc);
 
 int modify(int index, char* name, char* desc);
 

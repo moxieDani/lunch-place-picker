@@ -5,10 +5,12 @@ void printNode();
 
 void printNode()
 {
-	printf("[Output]\n");
+	LunchPlaceInfo* tmp = NULL;
 	int i = 0;
-	for( LunchPlaceInfo* tmp = temp(); tmp; tmp = tmp->pNext)
-		printf("[print] %d. FREQ(%d) NAME(%s) DESC(%s)\n", i++, tmp->frequency, tmp->name, tmp->desc);
+
+	printf("[Output]\n");
+	for( tmp = temp(); tmp; tmp = tmp->pNext)
+		printf("[print] %d. FREQ(%d) NAME(%s) DESC(%s)\n", i++, tmp->freq, tmp->name, tmp->desc);
 	printf("\n");
 }
 
@@ -16,11 +18,13 @@ int main(int argc, char* argv[])
 {
 	LunchPlaceInfo* lunchPlace = NULL;
 	open("lunch-place-info.txt");
-	init();
+	if (init() == 0)
+	{
+		lunchPlace = pickLunchPlace();
+		printf("\n[total] Lunch Place information : NAME(%s) / DESC(%s)\n", lunchPlace->name, lunchPlace->desc);
 
-	lunchPlace = pickLunchPlace();
-	printf("\n[total] Lunch Place information : NAME(%s) / DESC(%s)\n", lunchPlace->name, lunchPlace->desc);
-	save();
+		save();
+	}
 	deinit();
 	close();
 	return 0;
