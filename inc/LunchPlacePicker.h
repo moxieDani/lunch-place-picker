@@ -18,17 +18,17 @@ typedef struct LunchPlaceInfo {
 
 /*
  - 파일 관리 부분 
-   # open()
-   # saveNodeToFile()
-   # close()
+   # openFile()
+   # saveLunchPlaceInfoToFile()
+   # closeFile()
 
  - Linked List관리 부분
    # LoadFile(char* path)
-   # getNode(int index)
-   # insertNode(char* name, char* desc)
-   # modifyNode(int index, char* name, char* desc)
-   # insertNode(char* name, char* desc)
-   # deleteNode(int index)
+   # getLunchPlaceInfo(int index)
+   # insertLunchPlaceInfo(char* name, char* desc)
+   # modifyLunchPlaceInfo(int index, char* name, char* desc)
+   # insertLunchPlaceInfo(char* name, char* desc)
+   # deleteLunchPlaceInfo(int index)
  
  - Data parsing 부분
    # getLine(char* line)
@@ -52,7 +52,7 @@ typedef struct LunchPlaceInfo {
  - input : File path
  - output : 0(success), non-zero(error)
 */
-int fileOpen(char* path);
+int openFile(char* path);
 
 /*
 Linked list에 저장된 노드를 open 했었던 파일의 이름으로 overwriting한다.
@@ -63,14 +63,14 @@ Linked list에 저장된 노드를 open 했었던 파일의 이름으로 overwriting한다.
 - input : x
 - output : 0(success), non-zero(error : 추가 예정)
 */
-int saveNodeToFile();
+int saveLunchPlaceInfoToFile();
 
 /*
 open()에서 열었던 파일을 닫는다.
 - input : x
 - output : x
 */
-void fileClose();
+void closeFile();
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -96,28 +96,28 @@ Linked list에 저장된 노드들 중 특정 index에 해당하는 노드를 리턴한다.
 - input : 사용자가 원하는 index 번호
 - output : index에 해당하는 노드
 */
-LunchPlaceInfo* getNode(int index);
+LunchPlaceInfo* getLunchPlaceInfo(int index);
 
 /*
 Linked list에 저장된 노드에서 새로운 노드를 추가한다.
 - input : 점심장소 문자열, 부연설명 문자열
 - output : 0(success), non-zero(error : 추가 예정)
 */
-int insertNode(char* name, char* desc);
+int insertLunchPlaceInfo(char* name, char* desc);
 
 /*
 Linked list에 저장된 노드에서 특정 index의 노드를 수정한다.
 - input : 사용자가 지정한 index 번호, 점심장소 문자열, 부연설명 문자열
 - output : 0(success), non-zero(error)
 */
-int modifyNode(int index, char* name, char* desc);
+int modifyLunchPlaceInfo(int index, char* name, char* desc);
 
 /*
 Linked list에 저장된 노드에서 특정 index의 노드를 삭제한다.
 - input : 사용자가 지정한 index 번호
 - output : 0(success), non-zero(error)
 */
-int deleteNode(int index);
+int deleteLunchPlaceInfo(int index);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

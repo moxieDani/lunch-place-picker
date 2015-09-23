@@ -6,6 +6,7 @@
 void printNode();
 bool mainMenu();
 void nodeSetting();
+void saveNode();
 void clearEnter();
 
 void printNode()
@@ -14,7 +15,7 @@ void printNode()
 	int i = 0;
 
 	printf("[Output]\n");
-	for( tmp = getNode(0); tmp; tmp = tmp->pNext)
+	for( tmp = getLunchPlaceInfo(0); tmp; tmp = tmp->pNext)
 		printf("[print] %d. FREQ(%d) NAME(%s) DESC(%s)\n", i++, tmp->freq, tmp->name, tmp->desc);
 	printf("\n");
 }
@@ -43,7 +44,7 @@ bool mainMenu()
 	printf("   1. Pick lunch place\n");
 	printf("   2. Node setting\n");
 	printf("   3. Show lunch place list\n");
-	printf("   4. Save node to file\n");
+	printf("   4. Save lunch place info to file\n");
 	printf("   5. Exit\n");
 	printf(" [] input : ");
 	scanf("	 %d",&selectNum);
@@ -56,7 +57,7 @@ bool mainMenu()
 			printf("[result] Lunch Place information : NAME(%s) / DESC(%s)\n", lunchPlace->name, lunchPlace->desc);
 		else
 			printf("[result] There is no lunch place!\n");
-		saveNodeToFile();
+		saveLunchPlaceInfoToFile();
 		break;
 	case 2:
 		nodeSetting();
@@ -65,13 +66,13 @@ bool mainMenu()
 		printNode();
 		break;
 	case 4:
-		printf(" [Save] Saving... \n");
-		saveNodeToFile();
+		saveNode();
 		printNode();
 		break;
 	case 5:
+		saveNode();
 		release();
-		fileClose();
+		closeFile();
 		exit(1);
 	default:
 		printf(" [] Invalid number\n");
@@ -105,7 +106,7 @@ void nodeSetting()
 		printf(" [Insert] Description : ");
 		scanf("%399[^\n]s", desc);
 		clearEnter();
-		insertNode(name, desc);
+		insertLunchPlaceInfo(name, desc);
 		printNode();
 		break;
 	case 2:
@@ -118,20 +119,40 @@ void nodeSetting()
 		printf(" [Modify] Description : ");
 		scanf("%399[^\n]s", desc);
 		clearEnter();
-		modifyNode(targetIndex, name, desc);
+		modifyLunchPlaceInfo(targetIndex, name, desc);
 		printNode();
 		break;
 	case 3:
 		printf(" [Delete] Target index : ");
 		scanf("%d", &targetIndex);
 		clearEnter();
-		deleteNode(targetIndex);
+		deleteLunchPlaceInfo(targetIndex);
 		printNode();
 		break;
 	case 4:
 	default:
 		mainMenu();
 		break;
+	}
+}
+
+void saveNode()
+{
+	char ch;
+	printf(" [Save] Save Lunch place info to file(y/n)?");
+	scanf("%c", &ch);
+	clearEnter();
+	if( 'y' == ch || 'Y' == ch)
+	{
+		printf(" [Save] Saving... \n");
+		saveLunchPlaceInfoToFile();
+		printNode();
+	}
+	else if ( 'n' == ch || 'N' == ch) { ; }
+	else
+	{
+		printf(" [Error] Invalid value\n");
+		saveNode();
 	}
 }
 

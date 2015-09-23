@@ -10,7 +10,7 @@ static LunchPlaceInfo* gLunchPlaceTAIL = NULL;
 static int total = 0;
 static char* filePath;
 
-int fileOpen(char* path)
+int openFile(char* path)
 {
 	int ret = 0;
 	filePath = path;
@@ -30,7 +30,7 @@ int fileOpen(char* path)
 
 int LoadFile(char* path)
 {
-	fileOpen(path);
+	openFile(path);
 	printf("Load data start\n");
 	gLunchPlaceHEAD = (LunchPlaceInfo*)malloc(sizeof(LunchPlaceInfo));
 	gLunchPlaceHEAD->pNext = NULL;
@@ -46,8 +46,8 @@ int LoadFile(char* path)
 		
 		if ( 0 <= parsedData.freq && parsedData.name && parsedData.desc)
 		{
-			insertNode(parsedData.name, parsedData.desc);
-			getNode(total - 1)->freq = parsedData.freq;
+			insertLunchPlaceInfo(parsedData.name, parsedData.desc);
+			getLunchPlaceInfo(total - 1)->freq = parsedData.freq;
 		}
 		free(line);
 	}
@@ -118,11 +118,11 @@ LunchPlaceInfo* pickLunchPlace()
 	for (i = 0; i < 5; i++)
 	{
 		if (nodeCount < 5)
-			nominee[i] = getNode(i);
+			nominee[i] = getLunchPlaceInfo(i);
 		else
 		{
 			randomNumber = rand() % nodeCount;
-			nominee[i] = getNode(randomNumber);
+			nominee[i] = getLunchPlaceInfo(randomNumber);
 			for (j = 0; j < i; j++)
 				if (nominee[i] == nominee[j])
 					i--;
@@ -141,7 +141,7 @@ LunchPlaceInfo* pickLunchPlace()
 	return ret;
 }
 
-LunchPlaceInfo* getNode(int index)
+LunchPlaceInfo* getLunchPlaceInfo(int index)
 {
 	LunchPlaceInfo* LunchPlace = gLunchPlaceHEAD;
 	int i = 0;
@@ -159,7 +159,7 @@ LunchPlaceInfo* getNode(int index)
 	return LunchPlace;
 }
 
-int insertNode(char* name, char* desc)
+int insertLunchPlaceInfo(char* name, char* desc)
 {
 	LunchPlaceInfo* LunchPlace = (LunchPlaceInfo*)malloc(sizeof(LunchPlaceInfo));
 
@@ -189,7 +189,7 @@ int insertNode(char* name, char* desc)
 	return 0;
 }
 
-int modifyNode(int index, char* name, char* desc)
+int modifyLunchPlaceInfo(int index, char* name, char* desc)
 {
 	LunchPlaceInfo* LunchPlace = gLunchPlaceHEAD;
 	int i = 0;
@@ -223,7 +223,7 @@ int modifyNode(int index, char* name, char* desc)
 	return 0;
 }
 
-int deleteNode(int index)
+int deleteLunchPlaceInfo(int index)
 {
 	LunchPlaceInfo* LunchPlace = gLunchPlaceHEAD;
 	LunchPlaceInfo* targetToRemove = NULL;
@@ -261,7 +261,7 @@ int deleteNode(int index)
 	return 0;
 }
 
-int saveNodeToFile()
+int saveLunchPlaceInfoToFile()
 {
 	if (NULL != fp) fclose(fp);
 
@@ -302,7 +302,7 @@ int release()
 	return 0;
 }
 
-void fileClose()
+void closeFile()
 {
 	if (NULL != fp) fclose(fp);
 }
