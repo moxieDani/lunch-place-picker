@@ -8,9 +8,9 @@ FILE *fp;
 static LunchPlaceInfo* gLunchPlaceHEAD = NULL;
 static LunchPlaceInfo* gLunchPlaceTAIL = NULL;
 static int total = 0;
-static char* filePath;
+static const char* filePath;
 
-int openFile(char* path)
+int openFile(const char* path)
 {
 	int ret = 0;
 	filePath = path;
@@ -28,7 +28,7 @@ int openFile(char* path)
 	return ret;
 }
 
-int LoadFile(char* path)
+int LoadFile(const char* path)
 {
 	openFile(path);
 	printf("Load data start\n");

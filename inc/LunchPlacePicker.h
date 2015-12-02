@@ -52,7 +52,7 @@ typedef struct LunchPlaceInfo {
  - input : File path
  - output : 0(success), non-zero(error)
 */
-int openFile(char* path);
+int openFile(const char* path);
 
 /*
 Linked list에 저장된 노드를 open 했었던 파일의 이름으로 overwriting한다.
@@ -89,7 +89,7 @@ void closeFile();
  - input : file path
  - output : 0(success), non-zero(error : 추가 예정)
 */
-int LoadFile(char* path);
+int LoadFile(const char* path);
 
 /*
 Linked list에 저장된 노드들 중 특정 index에 해당하는 노드를 리턴한다.
