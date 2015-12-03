@@ -16,8 +16,8 @@
     <ClCompile Include="..\..\..\src\LunchPlacePickerEngine.cpp" />
     <ClCompile Include="..\..\..\src\Place.cpp" />
     <ClCompile Include="..\..\..\src\PlacePicker.cpp" />
-    <ClCompile Include="..\..\..\src\_DataParser.cpp" />
-    <ClCompile Include="..\..\..\src\_FileManager.cpp" />
+    <ClCompile Include="..\..\..\src\DataParser.cpp" />
+    <ClCompile Include="..\..\..\src\FileManager.cpp" />
     <ClCompile Include="..\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -26,8 +26,8 @@
     <ClInclude Include="..\..\..\inc\LunchPlacePickerEngine.h" />
     <ClInclude Include="..\..\..\inc\Place.h" />
     <ClInclude Include="..\..\..\inc\PlacePicker.h" />
-    <ClInclude Include="..\..\..\inc\_DataParser.h" />
-    <ClInclude Include="..\..\..\inc\_FileManager.h" />
+    <ClInclude Include="..\..\..\inc\DataParser.h" />
+    <ClInclude Include="..\..\..\inc\FileManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E53634E7-D965-4EAE-B847-13C1B8DE908D}</ProjectGuid>

@@ -11,8 +11,7 @@ public:
 	void write(const char* _format,...);
 	~FileManager();
 private:
-	FILE *fp;
-	char* data;
-	
+	FILE *mFilePtr;
+	char* mData;	
 };
 
