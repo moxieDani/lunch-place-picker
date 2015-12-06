@@ -19,22 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\DataListManager.cpp" />
     <ClCompile Include="..\..\..\src\DataParser.cpp" />
     <ClCompile Include="..\..\..\src\FileManager.cpp" />
     <ClCompile Include="..\..\..\src\LunchPlacePicker.cpp" />
     <ClCompile Include="..\..\..\src\LunchPlacePickerEngine.cpp" />
     <ClCompile Include="..\..\..\src\Place.cpp" />
+    <ClCompile Include="..\..\..\src\PlaceList.cpp" />
+    <ClCompile Include="..\..\..\src\PlaceListManager.cpp" />
     <ClCompile Include="..\..\..\src\PlacePicker.cpp" />
-    <ClCompile Include="..\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\inc\DataListManager.h" />
     <ClInclude Include="..\..\..\inc\DataParser.h" />
     <ClInclude Include="..\..\..\inc\FileManager.h" />
     <ClInclude Include="..\..\..\inc\LunchPlacePicker.h" />
     <ClInclude Include="..\..\..\inc\LunchPlacePickerEngine.h" />
     <ClInclude Include="..\..\..\inc\Place.h" />
+    <ClInclude Include="..\..\..\inc\PlaceList.h" />
+    <ClInclude Include="..\..\..\inc\PlaceListManager.h" />
     <ClInclude Include="..\..\..\inc\PlacePicker.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
