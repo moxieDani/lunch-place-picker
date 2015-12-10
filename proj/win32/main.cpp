@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "LunchPlacePicker.h"
-
+#include "FileManager.h"
+#include "DataParser.h"
+#include "PlaceList.h"
+#include "PlaceListManager.h"
+/*
 void printNode();
 bool mainMenu();
 void nodeSetting();
@@ -19,22 +22,26 @@ void printNode()
 		printf("[print] %d. FREQ(%d) NAME(%s) DESC(%s)\n", i++, tmp->freq, tmp->name, tmp->desc);
 	printf("\n");
 }
-
+*/
 int main(int argc, char* argv[])
 {
-	const char* path;// = argv[1];
-	path = argv[1] ? argv[1] : "lunch-place-info.txt";
-	if (LoadFile(path) != 0)
-	{
-		printf("Load fail!\n");
-		return -1;
-	}
-
+	const char* path = argv[1] ? argv[1] : "lunch-place-info.txt";
+	FileManager fileReader(path, "r");
+	DataParser fileParser = DataParser();
 	
-	while (1) { mainMenu(); }
+	size_t fileSize = fileReader.getFileSize();
+	
+	char* data = fileReader.getData(0, fileSize);
+	PlaceList* placeList = fileParser.parseData(data);
+	int placeListNum = placeList->mtotalPlaceNumber;
+
+	for(placeList; placeList != NULL; placeList = placeList->mNext)
+		printf("Freq(%d), Name(%s), Desc(%s)\n", placeList->mFreq, placeList->mName, placeList->mDesc);
+	printf("Total Place Number : %d\n", placeListNum);
+
 	return 0;
 }
-
+/*
 bool mainMenu()
 {
 	int selectNum = 0;
@@ -160,3 +167,4 @@ void clearEnter()
 {
 	while (getchar() != '\n');
 }
+*/

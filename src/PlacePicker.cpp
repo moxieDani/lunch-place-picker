@@ -14,10 +14,10 @@ PlacePicker::~PlacePicker()
 {
 }
 
-Place* PlacePicker::pickLunchPlace()
+PlaceList* PlacePicker::pickLunchPlace()
 {
-	Place* ret = NULL;
-	Place* nominee[5] = { NULL, };
+	PlaceList* ret = NULL;
+	PlaceList* nominee[5] = { NULL, };
 	PlaceList* list = mPlaceList;
 	int nomineeNum = mTotalPlaceNum < 5 ? mTotalPlaceNum : 5;
 	int randomNumber = 0;

@@ -6,7 +6,7 @@ class PlacePicker
 public:
 	PlacePicker(PlaceList* place);
 	~PlacePicker();
-	Place* pickLunchPlace();
+	PlaceList* pickLunchPlace();
 
 private:
 	PlaceList* mPlaceList;

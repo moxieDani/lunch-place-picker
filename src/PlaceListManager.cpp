@@ -3,10 +3,15 @@
 #include <string.h>
 
 /*************************************** public ***************************************/
+PlaceListManager::PlaceListManager()
+{
+	mPlaceList = new PlaceList();
+	mTotalPlaceNum = 0;
+}
+
 PlaceListManager::PlaceListManager(PlaceList* placeList)
 {
 	mPlaceList = placeList;
-	mPlaceList->mNext = NULL;
 	mTotalPlaceNum = 0;
 }
 
@@ -36,7 +41,7 @@ PlaceList* PlaceListManager::getPlaceList(int index)
 	return ret;
 }
 
-int PlaceListManager::addPlace(Place* place)
+int PlaceListManager::addPlace(PlaceList* place)
 {
 	int totalPlaceNum = getTotalPlaceNum();
 	
@@ -44,16 +49,14 @@ int PlaceListManager::addPlace(Place* place)
 	{
 		if (NULL == placeList)
 		{
-			placeList->mDesc = place->mDesc;
-			placeList->mName = place->mName;
-			placeList->mFreq = 0;
+			placeList = place;
 			countUpTotalPlaceNum();
 		}
 	}
 	return 0;
 }
 
-int PlaceListManager::modifyPlace(int index, Place* place)
+int PlaceListManager::modifyPlace(int index, PlaceList* place)
 {
 	int ret = 0;
 	PlaceList* placeList = NULL;

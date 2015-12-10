@@ -8,11 +8,12 @@ public:
 	PlaceList* mPlaceListHead;
 
 public:
+	PlaceListManager();
 	PlaceListManager(PlaceList* placeList);
 	~PlaceListManager();
 	PlaceList* getPlaceList(int index);
-	int addPlace(Place* place);
-	int modifyPlace(int index, Place* place);
+	int addPlace(PlaceList* place);
+	int modifyPlace(int index, PlaceList* place);
 	int removePlace(int index);
 	int getTotalPlaceNum();
 

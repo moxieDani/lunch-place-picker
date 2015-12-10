@@ -1,6 +1,7 @@
 #include "FileManager.h"
 #include <stdlib.h>
 #include <stdarg.h>
+#include <string.h>
 
 FileManager::FileManager(const char* name, const char* type)
 {
@@ -8,14 +9,15 @@ FileManager::FileManager(const char* name, const char* type)
 
 	if (NULL == mFilePtr)
 		printf("mFilePtr is NULL\n");
-	mData = (char*)malloc(sizeof(char)*4);
+	mData = (char*)malloc(sizeof(char));
 }
 
 char* FileManager::getData(long offset, size_t length)
 {
-	mData = (char*)realloc(mData, length);
+	mData = (char*)realloc(mData, length + 1);
+	memset(mData, '\0', length + 1);
 	fseek(mFilePtr, offset, SEEK_SET);
-	fread(mData, sizeof(char), length, mFilePtr);
+	fread(mData, sizeof(char), length+1, mFilePtr);
 	return mData;
 }
 
@@ -44,7 +46,10 @@ void FileManager::write(const char* _format,...)
 
 FileManager::~FileManager()
 {
-	free(mData);
+	if(NULL != mData)
+		free(mData);
 	if (NULL != mFilePtr)
 		fclose(mFilePtr);
+	mData =  NULL;
+	mFilePtr = NULL;
 }
