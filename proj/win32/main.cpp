@@ -5,39 +5,36 @@
 #include "DataParser.h"
 #include "PlaceList.h"
 #include "PlaceListManager.h"
-/*
+
 void printNode();
+/*
 bool mainMenu();
 void nodeSetting();
 void saveNode();
 void clearEnter();
-
-void printNode()
-{
-	LunchPlaceInfo* tmp = NULL;
-	int i = 0;
-
-	printf("[Output]\n");
-	for( tmp = getLunchPlaceInfo(0); tmp; tmp = tmp->pNext)
-		printf("[print] %d. FREQ(%d) NAME(%s) DESC(%s)\n", i++, tmp->freq, tmp->name, tmp->desc);
-	printf("\n");
-}
 */
+
+void printNode(PlaceList* placeList)
+{
+	int i = 1;
+	for(PlaceList* list = placeList; list != NULL; list = list->mNext)
+		printf("%03d. Freq:%d, Name:%s, Desc:%s\n", i++, list->mFreq, list->mName, list->mDesc);
+	printf("Total Place Number : %d\n", placeList ? placeList->mTotalPlaceNumber : 0);
+}
+
 int main(int argc, char* argv[])
 {
 	const char* path = argv[1] ? argv[1] : "lunch-place-info.txt";
 	FileManager fileReader(path, "r");
 	DataParser fileParser = DataParser();
+	PlaceListManager listManager = PlaceListManager(fileParser.parseData(fileReader.getData(0, fileReader.getFileSize())));
 	
-	size_t fileSize = fileReader.getFileSize();
-	
-	char* data = fileReader.getData(0, fileSize);
-	PlaceList* placeList = fileParser.parseData(data);
-	int placeListNum = placeList->mtotalPlaceNumber;
+	printNode(listManager.getPlaceList(0));
+	printf("\n");
+	PlaceList test = PlaceList("테스트", "잘 되나요?", 0);
+	listManager.modifyPlace(24, test);
 
-	for(placeList; placeList != NULL; placeList = placeList->mNext)
-		printf("Freq(%d), Name(%s), Desc(%s)\n", placeList->mFreq, placeList->mName, placeList->mDesc);
-	printf("Total Place Number : %d\n", placeListNum);
+	printNode(listManager.getPlaceList(0));
 
 	return 0;
 }

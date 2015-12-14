@@ -81,6 +81,8 @@ PlaceList* DataParser::parseData(char* data)
 			mParsedListTail = (NULL == mParsedListTail->mNext) ? mParsedListTail : mParsedListTail->mNext;
 		}
 	}
-	mParsedListHead->mtotalPlaceNumber = totalParsedData;
+	if (mParsedListHead)
+		mParsedListHead->mTotalPlaceNumber = totalParsedData;
+
 	return mParsedListHead;
 }

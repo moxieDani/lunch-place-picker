@@ -7,7 +7,7 @@ public:
 	char* mDesc;
 	int mFreq;
 	PlaceList* mNext;
-	int mtotalPlaceNumber;
+	int mTotalPlaceNumber;
 public:
 	PlaceList();
 	PlaceList(char* name, char* desc, int freq);
