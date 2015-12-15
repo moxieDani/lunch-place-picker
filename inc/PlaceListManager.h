@@ -6,6 +6,7 @@ class PlaceListManager
 public:
 	PlaceList* mPlaceList;
 	PlaceList* mPlaceListHead;
+	int mPlaceListNumber;
 
 public:
 	PlaceListManager();

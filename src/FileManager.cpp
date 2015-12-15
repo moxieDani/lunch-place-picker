@@ -27,7 +27,6 @@ size_t FileManager::getFileSize()
 	fseek(mFilePtr, 0, SEEK_END);
 	ret = (size_t)ftell(mFilePtr);
 	fseek(mFilePtr, 0, SEEK_SET);
-	printf("filesize : %d\n", ret);
 	return ret;
 }
 

@@ -6,13 +6,19 @@
 PlaceListManager::PlaceListManager()
 {
 	mPlaceList = new PlaceList();
-	mPlaceList->mTotalPlaceNumber = 0;
+	mPlaceListNumber = 0;
+	mPlaceList->mTotalPlaceNumber = mPlaceListNumber;
 }
 
 PlaceListManager::PlaceListManager(PlaceList* placeList)
 {
 	mPlaceList = placeList;
-	mPlaceList->mTotalPlaceNumber = placeList->mTotalPlaceNumber;
+	mPlaceListNumber = 0;
+	if(mPlaceList)
+	{
+		mPlaceListNumber = mPlaceList->mTotalPlaceNumber;
+		mPlaceList->mTotalPlaceNumber = mPlaceListNumber;
+	}
 }
 
 PlaceListManager::~PlaceListManager()
@@ -32,7 +38,7 @@ PlaceListManager::~PlaceListManager()
 PlaceList* PlaceListManager::getPlaceList(int index)
 {
 	PlaceList* ret = NULL;
-	if (0 <= index && index <= getTotalPlaceNum())
+	if (0 < index && index <= getTotalPlaceNum())
 	{
 		ret = mPlaceList;
 		for (int i = 1; i < index; i++)
@@ -73,7 +79,7 @@ int PlaceListManager::modifyPlace(int index, PlaceList place)
 {
 	int ret = -1;
 	
-	if (0 <= index && index <= getTotalPlaceNum())
+	if (0 < index && index <= getTotalPlaceNum())
 	{
 		PlaceList* placeList = getPlaceList(index);
 		ret = copyPlace(placeList, place);
@@ -87,10 +93,10 @@ int PlaceListManager::removePlace(int index)
 	int ret = 0;
 	PlaceList* targetToRemove = NULL;
 	
-	if (0 <= index && index <= getTotalPlaceNum())
+	if (0 < index && index <= getTotalPlaceNum())
 	{
 		targetToRemove = getPlaceList(index);
-		if (index == 0)
+		if (index == 1)
 			mPlaceList = mPlaceList->mNext;
 		else
 			getPlaceList(index - 1)->mNext = targetToRemove->mNext;
@@ -108,12 +114,7 @@ int PlaceListManager::removePlace(int index)
 }
 int PlaceListManager::getTotalPlaceNum()
 {
-	int ret = 0;
-
-	if (mPlaceList)
-		ret = mPlaceList->mTotalPlaceNumber;
-
-	return ret;
+	return mPlaceListNumber;
 }
 
 /*************************************** private ***************************************/
@@ -153,11 +154,16 @@ int PlaceListManager::freeMemory(void *target)
 
 void PlaceListManager::countUpTotalPlaceNum()
 {
-	mPlaceList->mTotalPlaceNumber++;
+	mPlaceListNumber++;
+	mPlaceList->mTotalPlaceNumber = mPlaceListNumber;
 }
 
 void PlaceListManager::countDownTotalPlaceNum()
 {
-	mPlaceList->mTotalPlaceNumber--;
+	mPlaceListNumber--;
+	if( 0 < mPlaceListNumber)
+		mPlaceList->mTotalPlaceNumber = mPlaceListNumber;
+	else
+		mPlaceListNumber = 0;
 }
 

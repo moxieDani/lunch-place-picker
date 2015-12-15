@@ -44,9 +44,6 @@
     <ClInclude Include="..\..\..\inc\FileManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\inc\LunchPlacePicker.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\inc\LunchPlacePickerEngine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>

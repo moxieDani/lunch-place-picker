@@ -22,7 +22,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\inc\DataParser.h" />
     <ClInclude Include="..\..\..\inc\FileManager.h" />
-    <ClInclude Include="..\..\..\inc\LunchPlacePicker.h" />
     <ClInclude Include="..\..\..\inc\LunchPlacePickerEngine.h" />
     <ClInclude Include="..\..\..\inc\PlaceList.h" />
     <ClInclude Include="..\..\..\inc\PlaceListManager.h" />

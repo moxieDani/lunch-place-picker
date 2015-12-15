@@ -1,25 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <Windows.h>
+
 #include "FileManager.h"
 #include "DataParser.h"
 #include "PlaceList.h"
 #include "PlaceListManager.h"
+#include "PlacePicker.h"
 
 void printNode();
 /*
 bool mainMenu();
 void nodeSetting();
 void saveNode();
-void clearEnter();
 */
+void clearEnter();
+
 
 void printNode(PlaceList* placeList)
 {
 	int i = 1;
 	for(PlaceList* list = placeList; list != NULL; list = list->mNext)
-		printf("%03d. Freq:%d, Name:%s, Desc:%s\n", i++, list->mFreq, list->mName, list->mDesc);
-	printf("Total Place Number : %d\n", placeList ? placeList->mTotalPlaceNumber : 0);
+		printf("%03d. %s - (%03d) %s\n", i++, list->mName, list->mFreq, list->mDesc);
+	printf("\nTotal Place Number : %d\n", placeList ? placeList->mTotalPlaceNumber : 0);
 }
 
 int main(int argc, char* argv[])
@@ -28,13 +33,47 @@ int main(int argc, char* argv[])
 	FileManager fileReader(path, "r");
 	DataParser fileParser = DataParser();
 	PlaceListManager listManager = PlaceListManager(fileParser.parseData(fileReader.getData(0, fileReader.getFileSize())));
-	
-	printNode(listManager.getPlaceList(0));
-	printf("\n");
-	PlaceList test = PlaceList("테스트", "잘 되나요?", 0);
-	listManager.modifyPlace(24, test);
+	PlacePicker picker = PlacePicker(listManager.getPlaceList(1));
+	PlaceList* ret = NULL;
 
-	printNode(listManager.getPlaceList(0));
+	int selectNum;
+	while(1)
+	{
+		printf("\n\n** Lunch Place Picker **\n");
+		printf(" [] Select Menu\n");
+		printf("   1. Pick lunch place\n");
+		printf("   2. Show all lunch places\n");
+		printf("   3. Exit\n");
+		printf(" [] input : ");
+		scanf("	 %d",&selectNum);
+		clearEnter();
+		system("cls");
+		switch (selectNum)
+		{
+		case 1:
+			ret = picker.pickLunchPlace();
+			if(ret)
+				printf("\n[result] %s - (%03d) %s\n", ret->mName, ret->mFreq, ret->mDesc);
+			else
+				printf("\n[result] There is no lunch place!\n");
+			break;
+		case 2:
+			printf("\n");
+			printNode(listManager.getPlaceList(1));
+			break;
+		case 3:
+			return 0;
+			break;
+		default:
+			printf("\n");
+			printf(" [] Invalid number\n");
+			break;
+		}
+		printf("\n");
+		system("pause");
+		//if(getchar() == 26) break;
+		system("cls");
+	}
 
 	return 0;
 }
@@ -159,9 +198,8 @@ void saveNode()
 		saveNode();
 	}
 }
-
+*/
 void clearEnter()
 {
 	while (getchar() != '\n');
 }
-*/

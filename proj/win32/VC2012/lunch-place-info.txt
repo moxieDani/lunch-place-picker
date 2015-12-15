@@ -1,2 +1,24 @@
-<FREQ>=8,<NAME>=Keep your fork,<DESC>=asdfasdfasdfasdf
-
+<FREQ>=0,<NAME>=Keep your fork,<DESC>=플래티넘 건물 지나서 강남역 부근
+<FREQ>=0,<NAME>=파닥파닥,<DESC>=3.5 옆 닭갈비집
+<FREQ>=0,<NAME>=십원집,<DESC>=역삼초 맞은편
+<FREQ>=0,<NAME>=한도니,<DESC>=회사옆
+<FREQ>=0,<NAME>=백종원 차돌박이,<DESC>=옛날 고기의 신 건물
+<FREQ>=0,<NAME>=강남불백,<DESC>=쌍용 플래티넘
+<FREQ>=0,<NAME>=아라섬,<DESC>=회사 정문 맞은편
+<FREQ>=0,<NAME>=Steak po,<DESC>=스테이크 + 쌀국수
+<FREQ>=0,<NAME>=금모래,<DESC>=음..
+<FREQ>=0,<NAME>=호남마을,<DESC>=뼈해장국, 해물된장찌개
+<FREQ>=0,<NAME>=한우와 제주돼지,<DESC>=
+<FREQ>=0,<NAME>=아사칸,<DESC>=5500원 뷔페
+<FREQ>=0,<NAME>=찌개집,<DESC>=회사 뒷골목
+<FREQ>=0,<NAME>=아방궁,<DESC>=중국집
+<FREQ>=0,<NAME>=동방홍,<DESC>=중국집
+<FREQ>=0,<NAME>=울트라 키친,<DESC>=쌍용 플래티넘
+<FREQ>=0,<NAME>=Ken Home,<DESC>=라멘집
+<FREQ>=0,<NAME>=새마을식당,<DESC>=회사 뒷골목
+<FREQ>=0,<NAME>=덕이 닭찜,<DESC>=쌍용 플래티넘
+<FREQ>=0,<NAME>=청담돈까스,<DESC>=쌍용 플래티넘
+<FREQ>=0,<NAME>=플래티넘 족발집,<DESC>=쌍용 플래티넘
+<FREQ>=0,<NAME>=나주가,<DESC>=회사 정문 맞은편
+<FREQ>=0,<NAME>=금모래 옆집,<DESC>=김치찌개, 청국장
+<FREQ>=0,<NAME>=지세포 세꼬시,<DESC>=회사 정문 맞은편
