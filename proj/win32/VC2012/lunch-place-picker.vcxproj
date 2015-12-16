@@ -13,7 +13,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\DataParser.cpp" />
     <ClCompile Include="..\..\..\src\FileManager.cpp" />
-    <ClCompile Include="..\..\..\src\LunchPlacePickerEngine.cpp" />
+    <ClCompile Include="..\..\..\src\Engine.cpp" />
     <ClCompile Include="..\..\..\src\PlaceList.cpp" />
     <ClCompile Include="..\..\..\src\PlaceListManager.cpp" />
     <ClCompile Include="..\..\..\src\PlacePicker.cpp" />
@@ -22,7 +22,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\inc\DataParser.h" />
     <ClInclude Include="..\..\..\inc\FileManager.h" />
-    <ClInclude Include="..\..\..\inc\LunchPlacePickerEngine.h" />
+    <ClInclude Include="..\..\..\inc\Engine.h" />
     <ClInclude Include="..\..\..\inc\PlaceList.h" />
     <ClInclude Include="..\..\..\inc\PlaceListManager.h" />
     <ClInclude Include="..\..\..\inc\PlacePicker.h" />
