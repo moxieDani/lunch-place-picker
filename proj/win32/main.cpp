@@ -8,14 +8,10 @@
 #include "PlaceList.h"
 
 void printNode(PlaceList* placeList);
-bool mainMenu(Engine* engine);
-bool settingsMenu(Engine* engine);
+int mainMenu(Engine* engine);
+int settingsMenu(Engine* engine);
 bool selectPlaceMenu();
 bool pickPlaceMenu(PlaceList* ret);
-/*
-void nodeSetting();
-void saveNode();
-*/
 void clearEnter();
 
 
@@ -32,13 +28,13 @@ int main(int argc, char* argv[])
 	char* path = argv[1] ? argv[1] : "lunch-place-info.txt";
 	Engine* engine = new Engine(path);
 	
-	while(mainMenu(engine)) {}
+	while(1 != mainMenu(engine)) {}
 	return 0;
 }
 
-bool mainMenu(Engine* engine)
+int mainMenu(Engine* engine)
 {
-	bool ret = true;
+	int ret = 0;
 	PlaceList* pickedPlace;
 	int selectNum;
 	bool isPlaceChanged = false;
@@ -72,13 +68,13 @@ bool mainMenu(Engine* engine)
 		printNode(engine->mPlaceListHead);
 		break;
 	case 3:
-		while(settingsMenu(engine)) {}
+		while(1 >= (ret = settingsMenu(engine))) {}
 		isPlaceChanged = true;
 		break;
 	case 4:
 		if(isPlaceChanged)
 			engine->savePlaceListToFile();
-		ret = false;
+		ret = 1;
 		break;
 	default:
 		printf("\n");
@@ -86,15 +82,15 @@ bool mainMenu(Engine* engine)
 		break;
 	}
 	printf("\n");
-	if(ret)
+	if(0 == ret)
 		system("pause");
 	
 	return ret;
 }
 
-bool settingsMenu(Engine* engine)
+int settingsMenu(Engine* engine)
 {
-	bool ret = true;
+	int ret = 0;
 	int selectNum = 0;
 	int targetIndex = 0;
 	char* name = (char*)malloc(sizeof(char) * 100);
@@ -148,7 +144,7 @@ bool settingsMenu(Engine* engine)
 	case 4:
 		if(name){ free(name); name = NULL;}
 		if(desc){ free(desc); desc = NULL;}
-		ret = false;
+		ret = 2;
 		break;
 	default:
 		if(name){ free(name); name = NULL;}
@@ -158,8 +154,6 @@ bool settingsMenu(Engine* engine)
 		break;
 	}
 	printf("\n");
-	if(ret)
-		system("pause");
 	return ret;
 }
 
