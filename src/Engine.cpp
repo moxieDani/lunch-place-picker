@@ -14,7 +14,7 @@ Engine::Engine()
 	mPlacePicker = new PlacePicker(mPlaceListHead);
 }
 
-Engine::Engine(char* filePath)
+Engine::Engine(const char* filePath)
 {
 	mFilePath = filePath ? filePath : "lunch-place-info.txt";
 	mFileReader = new FileManager(mFilePath, "r");

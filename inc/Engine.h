@@ -13,10 +13,10 @@ public:
 	PlaceListManager* mPlaceListManager;
 	PlacePicker* mPlacePicker;
 	PlaceList* mPlaceListHead;
-	char* mFilePath;
+	const char* mFilePath;
 public:
 	Engine();
-	Engine(char* srcPath);
+	Engine(const char* srcPath);
 	~Engine();
 	PlaceList* pickPlace();
 	int addPlace(PlaceList placeList);

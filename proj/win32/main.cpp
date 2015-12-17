@@ -12,6 +12,7 @@ int mainMenu(Engine* engine);
 int settingsMenu(Engine* engine);
 bool selectPlaceMenu();
 bool pickPlaceMenu(PlaceList* ret);
+
 void clearEnter();
 
 
@@ -25,7 +26,7 @@ void printNode(PlaceList* placeList)
 
 int main(int argc, char* argv[])
 {
-	char* path = argv[1] ? argv[1] : "lunch-place-info.txt";
+	const char* path = argv[1] ? argv[1] : "lunch-place-info.txt";
 	Engine* engine = new Engine(path);
 	
 	while(1 != mainMenu(engine)) {}
