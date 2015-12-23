@@ -7,8 +7,8 @@
 #include "PlaceList.h"
 
 void printNode(PlaceList* placeList);
-bool mainMenu(Engine* engine);
-bool settingsMenu(Engine* engine);
+int mainMenu(Engine* engine);
+int settingsMenu(Engine* engine);
 bool selectPlaceMenu();
 bool pickPlaceMenu(PlaceList* ret);
 
@@ -19,7 +19,7 @@ void printNode(PlaceList* placeList)
 {
 	int i = 1;
 	for(PlaceList* list = placeList; list != NULL; list = list->mNext)
-		printf("%03d. %s - %s(%d times selected.)\r\n", i++, list->mName, list->mDesc, list->mFreq);
+		printf("%03d. (%d times selected.) %s - %s\n", i++, list->mFreq,  list->mName, list->mDesc);
 	printf("\r\nTotal Place Number : %d\r\n", placeList ? i : 0);
 }
 
@@ -28,13 +28,13 @@ int main(int argc, char* argv[])
 	const char* path = argv[1] ? argv[1] : "lunch-place-info.txt";
 	Engine* engine = new Engine(path);
 	
-	while(mainMenu(engine)) {}
+	while(1 != mainMenu(engine)) {}
 	return 0;
 }
 
-bool mainMenu(Engine* engine)
+int mainMenu(Engine* engine)
 {
-	bool ret = true;
+	int ret = 0;
 	PlaceList* pickedPlace;
 	int selectNum;
 	bool isPlaceChanged = false;
@@ -68,30 +68,29 @@ bool mainMenu(Engine* engine)
 		printNode(engine->mPlaceListHead);
 		break;
 	case 3:
-		while(settingsMenu(engine)) {}
+		while(1 >= (ret = settingsMenu(engine))) {}
 		isPlaceChanged = true;
 		break;
 	case 4:
 		if(isPlaceChanged)
 			engine->savePlaceListToFile();
-		ret = false;
+		ret = 1;
 		break;
 	default:
 		printf("\r\n");
 		printf(" [] Invalid number\r\n");
 		break;
 	}
-	printf("\r\n");
-	if(ret)
+	printf("\n");
+	if(0 == ret)
 		system("read -n1 -s -p \"\r\nPress any key to continue...\" key");
-
 	
 	return ret;
 }
 
-bool settingsMenu(Engine* engine)
+int settingsMenu(Engine* engine)
 {
-	bool ret = true;
+	int ret = 0;
 	int selectNum = 0;
 	int targetIndex = 0;
 	char* name = (char*)malloc(sizeof(char) * 100);
@@ -145,7 +144,7 @@ bool settingsMenu(Engine* engine)
 	case 4:
 		if(name){ free(name); name = NULL;}
 		if(desc){ free(desc); desc = NULL;}
-		ret = false;
+		ret = 2;
 		break;
 	default:
 		if(name){ free(name); name = NULL;}
@@ -154,9 +153,7 @@ bool settingsMenu(Engine* engine)
 		printf(" [] Invalid number\r\n");
 		break;
 	}
-	printf("\r\n");
-	if(ret)
-		system("read -n1 -s -p \"\r\nPress any key to continue...\" key");
+	printf("\n");
 	return ret;
 }
 
@@ -165,7 +162,7 @@ bool selectPlaceMenu()
 {
 	bool ret = false;
 	char ch;
-	printf("\r\n [Select] Select this Lunch place for today`s lunch. Ok? (y/n)");
+	printf("\r\n [Select] Select this Lunch place for today`s lunch. Ok? (y/n) : ");
 	scanf("%c", &ch);
 	clearEnter();
 	if( 'y' == ch || 'Y' == ch)
@@ -188,7 +185,7 @@ bool pickPlaceMenu(PlaceList* placeList)
 	bool ret = false;
 	if(placeList)
 	{
-		printf("\r\n[result] %s - %s(%d times selected.)\r\n", placeList->mName, placeList->mDesc, placeList->mFreq);
+		printf("\r\n[result] (%d times selected.) %s - %s\r\n", placeList->mFreq, placeList->mName, placeList->mDesc);
 		ret = true;
 	}
 	else

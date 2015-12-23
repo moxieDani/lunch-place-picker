@@ -20,8 +20,8 @@ void printNode(PlaceList* placeList)
 {
 	int i = 1;
 	for(PlaceList* list = placeList; list != NULL; list = list->mNext)
-		printf("%03d. %s - %s(%d times selected.)\n", i++, list->mName, list->mDesc, list->mFreq);
-	printf("\nTotal Place Number : %d\n", placeList ? i : 0);
+		printf("%03d. (%d times selected.) %s - %s\n", i++, list->mFreq,  list->mName, list->mDesc);
+	printf("\r\nTotal Place Number : %d\r\n", placeList ? i : 0);
 }
 
 int main(int argc, char* argv[])
@@ -163,7 +163,7 @@ bool selectPlaceMenu()
 {
 	bool ret = false;
 	char ch;
-	printf("\n [Select] Select this Lunch place for today`s lunch. Ok? (y/n)");
+	printf("\n [Select] Select this Lunch place for today`s lunch. Ok? (y/n) : ");
 	scanf("%c", &ch);
 	clearEnter();
 	if( 'y' == ch || 'Y' == ch)
@@ -186,7 +186,7 @@ bool pickPlaceMenu(PlaceList* placeList)
 	bool ret = false;
 	if(placeList)
 	{
-		printf("\n[result] %s - %s(%d times selected.)\n", placeList->mName, placeList->mDesc, placeList->mFreq);
+		printf("\n[result] (%d times selected.) %s - %s\n", placeList->mFreq, placeList->mName, placeList->mDesc);
 		ret = true;
 	}
 	else
